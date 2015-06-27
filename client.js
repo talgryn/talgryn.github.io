@@ -67,19 +67,19 @@ var init = function(page) {
     }
   }
 
-  var location = getCookie(pref+pageId);
+  var loc = getCookie(pref+pageId);
   var pageNum = getCookie(pref+pageId+"-num");
 
-  if (!location) {
-    location = window.location;
+  if (!loc) {
+    loc = window.location;
     pageNum = page;
   }
 
   if (page < pageNum) {
-    return window.location.assign(location);
+    return window.location.assign(loc);
   }
 
-  setCookie(pref+pageId,location);
+  setCookie(pref+pageId,loc);
   setCookie(pref+pageId+"-num",page);
 
 
