@@ -62,6 +62,7 @@ var init = function(page) {
     if (page==99 && pageId !== refPageId) {
       setCookie(pref+refPageId,window.location);
       setCookie(pref+refPageId+"-num",page);
+
       return;
     }
   }
