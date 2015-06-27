@@ -79,7 +79,7 @@ var init = function(page) {
     return window.location.assign(loc);
   }
 
-  setCookie(pref+pageId,loc);
+  setCookie(pref+pageId,window.location);
   setCookie(pref+pageId+"-num",page);
 
 
