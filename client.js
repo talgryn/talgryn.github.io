@@ -20,6 +20,24 @@ function setCookie(cname, cvalue, exdays) {
   document.cookie = cname + "=" + cvalue + "; " + expires;
 }
 
+function getParameterByName(url, name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(url);
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+//var parser = document.createElement('a');
+//parser.href = "http://example.com:3000/pathname/?search=test#hash";
+//
+//parser.protocol; // => "http:"
+//parser.hostname; // => "example.com"
+//parser.port;     // => "3000"
+//parser.pathname; // => "/pathname/"
+//parser.search;   // => "?search=test"
+//parser.hash;     // => "#hash"
+//parser.host;     // => "example.com:3000"
+//
 
 function setInvalid(name, url) {
   setCookie("clubixValid-"+name,url,365);
@@ -28,15 +46,28 @@ function setInvalid(name, url) {
 var cookies = document.cookie;
 //var x=document.getElementsByTagName("div");
 
-var init = function(name, page) {
-  if (!name) {
-    return;
+var parseUrl = function(url) {
+  var parser = document.createElement('a');
+  parser.href = url;
+  return parser;
+}
+
+var init = function(page) {
+  var pref="clubix-";
+  var parser = parseUrl(window.location);
+  var refParser = parseUrl(document.referrer);
+  var pageId = getParameterByName(location.search,"id");
+  if (parser.hostname === refParser.hostname) {
+    var refPageId = getParameterByName(document.referrer,"id")
+    if (page==99 && pageId !== refPageId) {
+      setCookie(pref+refPageId,window.location);
+      setCookie(pref+refPageId+"-num",page);
+      return;
+    }
   }
 
-  var cookieName = "clubixValid-"+name;
-
-  var location = getCookie(cookieName);
-  var pageNum = getCookie(cookieName+"-num");
+  var location = getCookie(pref+pageId);
+  var pageNum = getCookie(pref+pageId+"-num");
 
   if (!location) {
     location = window.location;
@@ -47,8 +78,8 @@ var init = function(name, page) {
     return window.location.assign(location);
   }
 
-  setCookie(cookieName,location);
-  setCookie(cookieName+"-num",page);
+  setCookie(pref+pageId,location);
+  setCookie(pref+pageId+"-num",page);
 
 
 }
