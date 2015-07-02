@@ -27,6 +27,8 @@ function getParameterByName(url, name) {
   return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+
+
 //var parser = document.createElement('a');
 //parser.href = "http://example.com:3000/pathname/?search=test#hash";
 //
@@ -53,6 +55,9 @@ var parseUrl = function(url) {
 }
 
 var init = function(page) {
+  if (getParameterByName(location.search,"page")=='elements') {
+    return;
+  }
   var pref="clubix-";
   var parser = parseUrl(window.location);
   var refParser = parseUrl(document.referrer);
@@ -86,6 +91,10 @@ var init = function(page) {
 }
 
 var shareWithWhatsapp2 = function(link,text) {
+  if (getParameterByName(location.search,"page")=='elements') {
+    return;
+  }
+
   //document.write(
 //
   var node = document.getElementById('shareWhatsapp');
